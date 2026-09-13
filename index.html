@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>Suara Rakyat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🗣️</div>
+      <div>
+        <h1>Suara Rakyat</h1>
+        <span>Suaramu. Pedulimu. Perubahanmu.</span>
+      </div>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <nav id="navMenu">
+      <a href="#beranda">Beranda</a>
+      <a href="#laporan">Laporan</a>
+      <a href="#statistik">Statistik</a>
+      <button onclick="openReportModal()" class="nav-report">
+        + Buat Laporan
+      </button>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="beranda">
+      <div class="hero-content">
+        <span class="badge">🇮🇩 PLATFORM ASPIRASI MASYARAKAT</span>
+
+        <h2>
+          Sampaikan masalah.<br>
+          <strong>Dukung perubahan.</strong>
+        </h2>
+
+        <p>
+          Laporkan masalah di lingkunganmu dan biarkan masyarakat
+          bersama-sama memberikan dukungan.
+        </p>
+
+        <div class="hero-buttons">
+          <button class="primary-btn" onclick="openReportModal()">
+            📝 Buat Laporan
+          </button>
+
+          <a href="#laporan" class="secondary-btn">
+            🔎 Lihat Laporan
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="floating-icon">📢</div>
+        <h3>Suara masyarakat<br>itu penting.</h3>
+        <p>
+          Satu laporan mungkin kecil.
+          Ratusan suara bisa membuatnya terlihat.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- QUICK STATS -->
+    <section class="quick-stats">
+
+      <div class="stat-card">
+        <div class="stat-icon blue">📢</div>
+        <div>
+          <strong id="totalReports">0</strong>
+          <span>Total Laporan</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">✅</div>
+        <div>
+          <strong id="solvedReports">0</strong>
+          <span>Sudah Selesai</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange">👍</div>
+        <div>
+          <strong id="totalSupports">0</strong>
+          <span>Total Dukungan</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">👥</div>
+        <div>
+          <strong id="activeUsers">128</strong>
+          <span>Warga Aktif</span>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- LAPORAN -->
+    <section class="section" id="laporan">
+
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">ASPIRASI MASYARAKAT</span>
+          <h2>Laporan Terbaru</h2>
+        </div>
+
+        <button class="outline-btn" onclick="openReportModal()">
+          + Laporan Baru
+        </button>
+      </div>
+
+
+      <!-- SEARCH -->
+      <div class="search-area">
+
+        <div class="search-box">
+          🔎
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari laporan..."
+            oninput="renderReports()"
+          >
+        </div>
+
+        <select id="categoryFilter" onchange="renderReports()">
+          <option value="all">Semua Kategori</option>
+          <option value="Infrastruktur">🚧 Infrastruktur</option>
+          <option value="Kebersihan">🗑️ Kebersihan</option>
+          <option value="Transportasi">🚌 Transportasi</option>
+          <option value="Fasilitas Umum">🏫 Fasilitas Umum</option>
+          <option value="Lingkungan">🌳 Lingkungan</option>
+          <option value="Lainnya">📌 Lainnya</option>
+        </select>
+
+        <select id="sortFilter" onchange="renderReports()">
+          <option value="latest">Terbaru</option>
+          <option value="popular">Dukungan Terbanyak</option>
+        </select>
+
+      </div>
+
+
+      <div id="reportsContainer" class="reports-grid"></div>
+
+      <div id="emptyState" class="empty-state hidden">
+        <div>🔍</div>
+        <h3>Laporan tidak ditemukan</h3>
+        <p>Coba gunakan kata kunci atau kategori lain.</p>
+      </div>
+
+    </section>
+
+
+    <!-- STATISTIK -->
+    <section class="section statistics-section" id="statistik">
+
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">DATA MASYARAKAT</span>
+          <h2>Suara Warga</h2>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <div class="big-stat-card">
+          <div class="card-title">
+            <span>📊</span>
+            <h3>Kategori Laporan</h3>
+          </div>
+
+          <div id="categoryStats"></div>
+        </div>
+
+
+        <div class="big-stat-card">
+          <div class="card-title">
+            <span>🔥</span>
+            <h3>Laporan Terpopuler</h3>
+          </div>
+
+          <div id="popularReports"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- INFO -->
+    <section class="info-section">
+
+      <div class="info-card">
+        <div class="info-number">01</div>
+        <div>
+          <h3>Sampaikan</h3>
+          <p>Laporkan masalah yang kamu temukan di lingkungan sekitar.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-number">02</div>
+        <div>
+          <h3>Dukung</h3>
+          <p>Berikan dukungan jika kamu mengalami masalah yang sama.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-number">03</div>
+        <div>
+          <h3>Pantau</h3>
+          <p>Lihat perkembangan laporan sampai masalah terselesaikan.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- MODAL LAPORAN -->
+  <div id="reportModal" class="modal">
+
+    <div class="modal-content">
+
+      <button class="close-btn" onclick="closeReportModal()">×</button>
+
+      <div class="modal-header">
+        <span class="modal-icon">📢</span>
+        <div>
+          <h2>Buat Laporan</h2>
+          <p>Sampaikan masalah di lingkunganmu.</p>
+        </div>
+      </div>
+
+
+      <form id="reportForm">
+
+        <label>Judul Laporan</label>
+        <input
+          type="text"
+          id="reportTitle"
+          placeholder="Contoh: Jalan berlubang di depan sekolah"
+          maxlength="80"
+          required
+        >
+
+        <label>Kategori</label>
+        <select id="reportCategory" required>
+          <option value="">Pilih kategori</option>
+          <option value="Infrastruktur">🚧 Infrastruktur</option>
+          <option value="Kebersihan">🗑️ Kebersihan</option>
+          <option value="Transportasi">🚌 Transportasi</option>
+          <option value="Fasilitas Umum">🏫 Fasilitas Umum</option>
+          <option value="Lingkungan">🌳 Lingkungan</option>
+          <option value="Lainnya">📌 Lainnya</option>
+        </select>
+
+        <label>Lokasi Umum</label>
+        <input
+          type="text"
+          id="reportLocation"
+          placeholder="Contoh: Jalan Merdeka, Kecamatan..."
+          required
+        >
+
+        <label>Deskripsi</label>
+        <textarea
+          id="reportDescription"
+          placeholder="Jelaskan masalahnya..."
+          rows="5"
+          maxlength="500"
+          required
+        ></textarea>
+
+        <div class="character-count">
+          Maksimal 500 karakter
+        </div>
+
+        <div class="safety-note">
+          🛡️ Jangan masukkan alamat rumah, nomor telepon,
+          identitas pribadi, atau data sensitif.
+        </div>
+
+        <button type="submit" class="submit-btn">
+          📢 Publikasikan Laporan
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- DETAIL MODAL -->
+  <div id="detailModal" class="modal">
+
+    <div class="modal-content detail-content">
+
+      <button class="close-btn" onclick="closeDetail()">×</button>
+
+      <div id="detailBody"></div>
+
+    </div>
+
+  </div>
+
+
+  <footer>
+
+    <div class="footer-brand">
+      🗣️ <strong>Suara Rakyat</strong>
+    </div>
+
+    <p>
+      Platform aspirasi masyarakat untuk lingkungan yang lebih baik.
+    </p>
+
+    <small>
+      V1 Prototype • Data tersimpan di browser
+    </small>
+
+  </footer>
+
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
